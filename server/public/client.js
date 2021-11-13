@@ -2,7 +2,7 @@ console.log('js');
 
 $(document).ready(readyNow);
 
-let userInputs = {inputs:[]};
+let userInputs = {inputs:[], arithmetic: ''};
 let arithmetic;
 
 function readyNow(){
@@ -22,7 +22,7 @@ function readyNow(){
 
 function takeUserInputs(){
     userInputs.inputs.push($('#input-number-1').val());
-    userInputs.inputs.push(arithmetic);
+    userInputs.arithmetic = arithmetic;
     userInputs.inputs.push($('#input-number-2').val());
     console.log(userInputs.inputs);
     sendUserInputs();
@@ -40,7 +40,24 @@ function sendUserInputs(){
         data: userInputs
     }).then ((response) => {
         console.log('response:', response);
+        handleRenderHistory();
     }).catch ((error) => {
         console.log('error:', error);
+    });
+}
+
+function handleRenderHistory(history){
+
+    // for(let i of history){
+        
+    // }
+
+    $.ajax ({
+        method: 'GET',
+        url: '/inputs',
+    }).then ((response) =>{
+        console.log('response:', response);
+    }).catch ((error) => {
+        console.log('error', error);
     });
 }
