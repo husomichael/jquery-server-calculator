@@ -20,8 +20,23 @@ app.post('/inputs', (req, res) => {
         res.send(total);
     }
     //Subtraction
+    if(req.body.arithmetic == 'minus'){
+        total.data = Number(req.body.inputs[0]) - Number(req.body.inputs[1]);
+        history.data.push(`${req.body.inputs[0]} - ${req.body.inputs[1]} = ${total.data}`);
+        res.send(total);
+    }
     //Multiplication
+    if(req.body.arithmetic == 'multiply'){
+        total.data = Number(req.body.inputs[0]) * Number(req.body.inputs[1]);
+        history.data.push(`${req.body.inputs[0]} * ${req.body.inputs[1]} = ${total.data}`);
+        res.send(total);
+    }
     //Division
+    if(req.body.arithmetic == 'divide'){
+        total.data = Number(req.body.inputs[0]) / Number(req.body.inputs[1]);
+        history.data.push(`${req.body.inputs[0]} / ${req.body.inputs[1]} = ${total.data}`);
+        res.send(total);
+    }
 })
 
 app.get('/inputs', (req, res) =>{

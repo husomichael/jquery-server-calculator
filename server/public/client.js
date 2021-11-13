@@ -27,6 +27,9 @@ function takeUserInputs(){
     userInputs.inputs.push($('#input-number-2').val());
     console.log(userInputs.inputs);
     sendUserInputs();
+    userInputs.inputs = [];
+    $('#input-number-1').val('');
+    $('#input-number-2').val('');
 }
 
 function setArithmetic(event){
@@ -42,7 +45,8 @@ function sendUserInputs(){
     }).then ((response) => {
         console.log('response:', response);
         //Make response return the total and append here?
-        $('#total').append(`${response.data}`);
+        $('#total').empty();
+        $('#total').append(`Total: ${response.data}`);
         handleRenderHistory();
     }).catch ((error) => {
         console.log('error:', error);
@@ -55,6 +59,7 @@ function handleRenderHistory(history){
         url: '/inputs',
     }).then ((response) =>{
         console.log('response:', response);
+        $('#history').empty();
         for(let i of response.data){
             $('#history').append(`
             <li>${i}</li>
