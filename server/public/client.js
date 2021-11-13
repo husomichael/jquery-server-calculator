@@ -25,9 +25,22 @@ function takeUserInputs(){
     userInputs.inputs.push(arithmetic);
     userInputs.inputs.push($('#input-number-2').val());
     console.log(userInputs.inputs);
+    sendUserInputs();
 }
 
 function setArithmetic(event){
     console.log(event.data.arithmetic);
     arithmetic = event.data.arithmetic;
+}
+
+function sendUserInputs(){
+    $.ajax ({
+        method: 'POST',
+        url: '/inputs',
+        data: userInputs
+    }).then ((response) => {
+        console.log('response:', response);
+    }).catch ((error) => {
+        console.log('error:', error);
+    });
 }
