@@ -16,27 +16,25 @@ function readyNow(){
     handleRenderHistory();
 ;}
 
-// Take user inputs and when submit button is clicked bundle them into an object
-// and send the object to the server via a POST. 
-
-// C button should clear user inputs.
-
+//Takes user inputs, sends inputs to server, clears inputs.
 function takeUserInputs(){
     userInputs.inputs.push($('#input-number-1').val());
     userInputs.arithmetic = arithmetic;
     userInputs.inputs.push($('#input-number-2').val());
     console.log(userInputs.inputs);
     sendUserInputs();
-    userInputs.inputs = [];
-    $('#input-number-1').val('');
-    $('#input-number-2').val('');
+    handleClearButton();
 }
 
+//Sets arithmetic variable based on which button is clicked.
 function setArithmetic(event){
     console.log(event.data.arithmetic);
     arithmetic = event.data.arithmetic;
 }
 
+//Sends user inputs to the server. 
+//Receives total as a response, appends it to the DOM. 
+//Renders history to DOM.
 function sendUserInputs(){
     $.ajax ({
         method: 'POST',
@@ -44,7 +42,6 @@ function sendUserInputs(){
         data: userInputs
     }).then ((response) => {
         console.log('response:', response);
-        //Make response return the total and append here?
         $('#total').empty();
         $('#total').append(`Total: ${response.data}`);
         handleRenderHistory();
@@ -53,11 +50,14 @@ function sendUserInputs(){
     });
 }
 
+//Sends a get request to server.
+//Recieves history object as response
+//Loops through response.data and appends to DOM.
 function handleRenderHistory(history){
     $.ajax ({
         method: 'GET',
         url: '/inputs',
-    }).then ((response) =>{
+    }).then ((response) => {
         console.log('response:', response);
         $('#history').empty();
         for(let i of response.data){
@@ -70,8 +70,10 @@ function handleRenderHistory(history){
     });
 }
 
+//Clears input fields, input object values, and arithmetic value.
 function handleClearButton(){
     $('#input-number-1').val('');
     $('#input-number-2').val('');
     arithmetic = '';
+    userInputs.inputs = [];
 }

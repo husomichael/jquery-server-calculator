@@ -10,6 +10,10 @@ app.use(express.static('server/public'));
 let history = {data: []};
 let total = {data: 0};
 
+//Recieves post from user when equals button is selected.
+//Conditional checks arithmetic option
+//Logic is ran, total is returned.
+//Submission is pushed to history array.
 app.post('/inputs', (req, res) => {
     console.log(req.body);
     // res.sendStatus(200);
@@ -39,6 +43,7 @@ app.post('/inputs', (req, res) => {
     }
 })
 
+//On get request, history object with history array is returned.
 app.get('/inputs', (req, res) =>{
     res.send(history);
 })
@@ -46,5 +51,5 @@ app.get('/inputs', (req, res) =>{
 
 
 app.listen(PORT, () => {
-    console.log('Server is runnong on port', PORT);
+    console.log('Server is running on port', PORT);
 })
