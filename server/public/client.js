@@ -13,6 +13,7 @@ function readyNow(){
     $('#divide-button').on('click', {arithmetic: 'divide'}, setArithmetic);
     $('#equals-button').on('click', takeUserInputs);
     $('#clear-button').on('click', takeUserInputs);
+    handleRenderHistory();
 ;}
 
 // Take user inputs and when submit button is clicked bundle them into an object
@@ -40,6 +41,8 @@ function sendUserInputs(){
         data: userInputs
     }).then ((response) => {
         console.log('response:', response);
+        //Make response return the total and append here?
+        //$('#total').append(`${response}`);
         handleRenderHistory();
     }).catch ((error) => {
         console.log('error:', error);
@@ -47,16 +50,16 @@ function sendUserInputs(){
 }
 
 function handleRenderHistory(history){
-
-    // for(let i of history){
-        
-    // }
-
     $.ajax ({
         method: 'GET',
         url: '/inputs',
     }).then ((response) =>{
         console.log('response:', response);
+        for(let i of response.data){
+            $('#history').append(`
+            <li>${i}</li>
+            `);
+        }
     }).catch ((error) => {
         console.log('error', error);
     });
