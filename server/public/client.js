@@ -42,7 +42,7 @@ function sendUserInputs(){
     }).then ((response) => {
         console.log('response:', response);
         //Make response return the total and append here?
-        //$('#total').append(`${response}`);
+        $('#total').append(`${response.data}`);
         handleRenderHistory();
     }).catch ((error) => {
         console.log('error:', error);

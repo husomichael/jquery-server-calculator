@@ -7,11 +7,21 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(express.static('server/public'));
 
-let history = {data: [1,3,4,5,6]};
+let history = {data: []};
+let total = {data: 0};
 
 app.post('/inputs', (req, res) => {
     console.log(req.body);
-    res.sendStatus(200);
+    // res.sendStatus(200);
+    //Addition
+    if(req.body.arithmetic == 'plus'){
+        total.data = Number(req.body.inputs[0]) + Number(req.body.inputs[1]);
+        history.data.push(`${req.body.inputs[0]} + ${req.body.inputs[1]} = ${total.data}`);
+        res.send(total);
+    }
+    //Subtraction
+    //Multiplication
+    //Division
 })
 
 app.get('/inputs', (req, res) =>{
