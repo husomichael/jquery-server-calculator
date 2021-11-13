@@ -12,7 +12,7 @@ function readyNow(){
     $('#multiply-button').on('click', {arithmetic: 'multiply'}, setArithmetic);
     $('#divide-button').on('click', {arithmetic: 'divide'}, setArithmetic);
     $('#equals-button').on('click', takeUserInputs);
-    $('#clear-button').on('click', takeUserInputs);
+    $('#clear-button').on('click', handleClearButton);
     handleRenderHistory();
 ;}
 
@@ -68,4 +68,10 @@ function handleRenderHistory(history){
     }).catch ((error) => {
         console.log('error', error);
     });
+}
+
+function handleClearButton(){
+    $('#input-number-1').val('');
+    $('#input-number-2').val('');
+    arithmetic = '';
 }
