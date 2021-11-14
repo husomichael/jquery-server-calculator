@@ -18,6 +18,7 @@ function readyNow(){
     $('#equals-button').on('click', takeUserInputs);
     $('#clear-button').on('click', handleClearButton);
     $('#calculator-table').on('click', handleCalculatorButtons);
+    $('#delete').on('click', handleDeleteButton);
     handleRenderHistory();
 ;}
 
@@ -58,7 +59,7 @@ function sendUserInputs(){
 //Sends a get request to server.
 //Recieves history object as response
 //Loops through response.data and appends to DOM.
-function handleRenderHistory(history){
+function handleRenderHistory(){
     $.ajax ({
         method: 'GET',
         url: '/inputs',
@@ -83,10 +84,24 @@ function handleClearButton(){
     userInputs.inputs = [];
 }
 
-//Function to handle client calculator table buttons
+//Delete request to wipe history array server side.
+//Call handleRenderHistory on successful call to update DOM.
+function handleDeleteButton(){
+    $.ajax ({
+        method: 'DELETE',
+        url: '/inputs',
+    }).then((response) =>{
+        console.log('delete response:', response);
+        handleRenderHistory();
+        $('#total').empty();
+        $('#total').append(`Total:`);
+    })
+}
+
+//Function to handle client calculator table buttons.
 //Buttons tied to 1 click handler, each button has unique id.
 //Different actions taken in conditionals based on event.target.id passed through button click.
-//Buttons will push numbers to a string? String could push to array when arithmetic is selected. *** NOT DONE: Append value to input DOM. *****
+//Buttons will push numbers to numString and pushes to array when arithmetic is selected. *** NOT DONE: Append value to input DOM. *****
 
 //This is hard. Do it later.
 function handleCalculatorButtons(event){
