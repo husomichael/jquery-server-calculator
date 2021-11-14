@@ -54,8 +54,6 @@ app.delete('/inputs', (req, res) =>{
     res.send('history deleted');
 })
 
-
-
 app.listen(PORT, () => {
     console.log('Server is running on port', PORT);
 })

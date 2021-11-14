@@ -1,18 +1,11 @@
 $(document).ready(readyNow);
 
-//Stretch
 let numString = '';
-//
-
 let userInputs = {inputs:[], arithmetic: ''};
 let arithmetic;
-    userInputs.test = [312342345, 43252345];
+let lastTotal = 0;
 
 function readyNow(){
-    // $('#plus-button').on('click', {arithmetic: 'plus'}, setArithmetic);
-    // $('#minus-button').on('click', {arithmetic: 'minus'}, setArithmetic);
-    // $('#multiply-button').on('click', {arithmetic: 'multiply'}, setArithmetic);
-    // $('#divide-button').on('click', {arithmetic: 'divide'}, setArithmetic);
     $('#equals-button').on('click', takeUserInputs);
     $('#clear-button').on('click', handleClearButton);
     $('#calculator-table').on('click', handleCalculatorButtons);
@@ -30,12 +23,6 @@ function takeUserInputs(){
     handleClearButton();
 }
 
-//Sets arithmetic variable based on which button is clicked.
-// function setArithmetic(event){
-//     console.log(event.data.arithmetic);
-//     arithmetic = event.data.arithmetic;
-// }
-
 //Sends user inputs to the server. 
 //Receives total as a response, appends it to the DOM. 
 //Renders history to DOM.
@@ -48,6 +35,7 @@ function sendUserInputs(){
         // console.log('response:', response);
         $('#total').empty();
         $('#total').append(`Total: ${response.data}`);
+        lastTotal = response.data;
         handleRenderHistory();
     }).catch ((error) => {
         console.log('error:', error);
@@ -101,9 +89,14 @@ function handleDeleteButton(){
 //Buttons tied to 1 click handler, each button has unique id.
 //Different actions taken in conditionals based on event.target.id passed through button click.
 //Buttons will push numbers to numString and pushes to array when arithmetic is selected. 
-//*** NOT DONE: Append value to input DOM. *****
+//Append value to input DOM.
 
-//This is hard. Do it later.
+/* TO DO: Take lastTotal and use conditional to run numbers if user clicks
+an operator after 1 value is pushed and numString.length > 1. 
+Total can be pushed to array and operator appended and be back at square 1 of
+having to add another number and hit another operator or equals.
+The logic running this way will force order of operations and make simple
+calculator work.  */
 function handleCalculatorButtons(event){ 
     // console.log(event.target.id);
     if(event.target.id == 0){
@@ -143,7 +136,7 @@ function handleCalculatorButtons(event){
         numString = '';
         userInputs.arithmetic = '/';
     }
-
+    
     if(userInputs.inputs.length == 0){
         $("#input-number-1").val(`${numString}`);
     }else if(userInputs.inputs.length == 1){
