@@ -2,6 +2,10 @@ console.log('js');
 
 $(document).ready(readyNow);
 
+//Stretch
+let numString = '';
+//
+
 let userInputs = {inputs:[], arithmetic: ''};
 let arithmetic;
 
@@ -13,6 +17,7 @@ function readyNow(){
     $('#divide-button').on('click', {arithmetic: 'divide'}, setArithmetic);
     $('#equals-button').on('click', takeUserInputs);
     $('#clear-button').on('click', handleClearButton);
+    $('#calculator-table').on('click', handleCalculatorButtons);
     handleRenderHistory();
 ;}
 
@@ -76,4 +81,60 @@ function handleClearButton(){
     $('#input-number-2').val('');
     arithmetic = '';
     userInputs.inputs = [];
+}
+
+//Function to handle client calculator table buttons
+//Buttons tied to 1 click handler, each button has unique id.
+//Different actions taken in conditionals based on event.target.id passed through button click.
+//Buttons will push numbers to a string? String could push to array when arithmetic is selected. *** NOT DONE: Append value to input DOM. *****
+
+//This is hard. Do it later.
+function handleCalculatorButtons(event){
+    // console.log(event.target.id);
+    if(event.target.id == 0){
+        numString += '0';
+    }else if(event.target.id == 1){
+        numString += '1';
+    }else if(event.target.id == 2){
+        numString += '2';
+    }else if(event.target.id == 3){
+        numString += '3';
+    }else if(event.target.id == 4){
+        numString += '4';
+    }else if(event.target.id == 5){
+        numString += '5';
+    }else if(event.target.id == 6){
+        numString += '6';
+    }else if(event.target.id == 7){
+        numString += '7';
+    }else if(event.target.id == 8){
+        numString += '8';
+    }else if(event.target.id == 9){
+        numString += '9';
+    }else if(event.target.id == '+' && numString.length > 0){
+        userInputs.inputs.push(numString);
+        numString = '';
+        userInputs.arithmetic = 'plus';
+    }else if(event.target.id == '-' && numString.length > 0){
+        userInputs.inputs.push(numString);
+        numString = '';
+        userInputs.arithmetic = 'minus'
+    }else if(event.target.id == '*' && numString.length > 0){
+        userInputs.inputs.push(numString);
+        numString = '';
+        userInputs.arithmetic = 'multiply'
+    }else if(event.target.id == '/' && numString.length > 0){
+        userInputs.inputs.push(numString);
+        numString = '';
+        userInputs.arithmetic = 'divide';
+    }else if(event.target.id == '=' && numString.length > 0){
+        if(userInputs.inputs.length > 0){
+            userInputs.inputs.push(numString);
+            numString = '';
+            sendUserInputs();
+            userInputs.inputs = [];
+        }
+    }
+    console.log(numString);
+    console.log(userInputs.inputs);
 }
