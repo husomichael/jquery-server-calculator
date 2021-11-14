@@ -5,6 +5,7 @@ html{
     /*
     Color palette: Teal(#27323A, #435055, #29A19C, #A3F7BF)
                   Green(#191A19, #1E5128, #4E9F3D, #D8E9A8)
+                  Yellow(#222831, #393E46, #FFD369, #EEEEEE)
     */
 }
 .wrapper{
@@ -22,6 +23,7 @@ ul{
     margin-right: auto;
     float: left;
     text-align: left;
+    list-style-type: none;
 }
 #history-div{
     margin: auto;

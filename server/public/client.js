@@ -6,39 +6,28 @@ let arithmetic;
 let lastTotal = 0;
 
 function readyNow(){
-    $('#equals-button').on('click', takeUserInputs);
     $('#clear-button').on('click', handleClearButton);
     $('#calculator-table').on('click', handleCalculatorButtons);
     $('#delete').on('click', handleDeleteButton);
     handleRenderHistory();
 ;}
 
-//Takes user inputs, sends inputs to server, clears inputs.
-function takeUserInputs(){
-    userInputs.inputs.push($('#input-number-1').val());
-    userInputs.arithmetic = arithmetic;
-    userInputs.inputs.push($('#input-number-2').val());
-    // console.log(userInputs.inputs);
-    sendUserInputs();
-    handleClearButton();
-}
-
 //Sends user inputs to the server. 
 //Receives total as a response, appends it to the DOM. 
 //Renders history to DOM.
-function sendUserInputs(){
+function sendUserInputs(ifTrue, operator){
     $.ajax ({
         method: 'POST',
         url: '/inputs',
         data: userInputs
     }).then ((response) => {
-        // console.log('response:', response);
         $('#total').empty();
         $('#total').append(`Total: ${response.data}`);
         lastTotal = response.data;
         handleRenderHistory();
+        handleMultipleOperators(ifTrue, operator);
     }).catch ((error) => {
-        console.log('error:', error);
+        console.log('sendUserInputs error:', error);
     });
 }
 
@@ -58,7 +47,7 @@ function handleRenderHistory(){
             `);
         }
     }).catch ((error) => {
-        console.log('error', error);
+        console.log('handleRenderHistory error', error);
     });
 }
 
@@ -82,7 +71,21 @@ function handleDeleteButton(){
         handleRenderHistory();
         $('#total').empty();
         $('#total').append(`Total:`);
-    })
+    }).catch ((error) =>{
+        console.log('handleDeleteButton error:', error);
+    });
+}
+
+//Function to get last total because my global variable isn't updating from the response of sendUserInputs.
+function getLastTotal(){
+    $.ajax ({
+        method: 'GET',
+        url: '/total',
+    }).then((response) =>{
+        $('#input-number-1').val(`${response.data}`);
+    }).catch((error) =>{
+        console.log('getLastTotal error:', error);
+    });
 }
 
 //Function to handle client calculator table buttons.
@@ -91,14 +94,13 @@ function handleDeleteButton(){
 //Buttons will push numbers to numString and pushes to array when arithmetic is selected. 
 //Append value to input DOM.
 
-/* TO DO: Take lastTotal and use conditional to run numbers if user clicks
+/*Take lastTotal and use conditional to run numbers if user clicks
 an operator after 1 value is pushed and numString.length > 1. 
 Total can be pushed to array and operator appended and be back at square 1 of
 having to add another number and hit another operator or equals.
 The logic running this way will force order of operations and make simple
 calculator work.  */
 function handleCalculatorButtons(event){ 
-    // console.log(event.target.id);
     if(event.target.id == 0){
         numString += '0';
     }else if(event.target.id == 1){
@@ -119,22 +121,36 @@ function handleCalculatorButtons(event){
         numString += '8';
     }else if(event.target.id == 9){
         numString += '9';
+    }else if(event.target.id == '.'){
+        numString += '.';
     }else if(event.target.id == '+' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
         userInputs.arithmetic = '+';
+    }else if(event.target.id == '+' && numString.length > 0 && userInputs.inputs.length == 1){
+        userInputs.inputs.push(numString);
+        sendUserInputs('true', '+');
     }else if(event.target.id == '-' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
         userInputs.arithmetic = '-'
+    }else if(event.target.id == '-' && numString.length > 0 && userInputs.inputs.length == 1){
+        userInputs.inputs.push(numString);
+        sendUserInputs('true', '-');
     }else if(event.target.id == '*' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
         userInputs.arithmetic = '*'
+    }else if(event.target.id == '*' && numString.length > 0 && userInputs.inputs.length == 1){
+        userInputs.inputs.push(numString);
+        sendUserInputs('true', '*');
     }else if(event.target.id == '/' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
         userInputs.arithmetic = '/';
+    }else if(event.target.id == '/' && numString.length > 0 && userInputs.inputs.length == 1){
+        userInputs.inputs.push(numString);
+        sendUserInputs('true', '/');
     }
     
     if(userInputs.inputs.length == 0){
@@ -152,6 +168,16 @@ function handleCalculatorButtons(event){
             $("#input-number-1").val('');
         }
     }
-    // console.log(numString);
-    // console.log(userInputs.inputs);
+}
+
+//Function required to call in sendUserInputs because of server delay.
+//Function made to call inside sendUserInputs function IF a second operator is selected instead of equals.
+function handleMultipleOperators(ifTrue, operator){
+    if(ifTrue === 'true'){
+    numString = '';
+    userInputs.inputs = [];
+    userInputs.inputs.push(lastTotal);
+    userInputs.arithmetic = `${operator}`;
+    $("#input-number-1").val(`${userInputs.inputs[0]} ${userInputs.arithmetic} ${numString}`);
+    }
 }
