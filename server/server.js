@@ -18,25 +18,25 @@ app.post('/inputs', (req, res) => {
     console.log(req.body);
     // res.sendStatus(200);
     //Addition
-    if(req.body.arithmetic == 'plus'){
+    if(req.body.arithmetic == '+'){
         total.data = Number(req.body.inputs[0]) + Number(req.body.inputs[1]);
         history.data.push(`${req.body.inputs[0]} + ${req.body.inputs[1]} = ${total.data}`);
         res.send(total);
     }
     //Subtraction
-    if(req.body.arithmetic == 'minus'){
+    if(req.body.arithmetic == '-'){
         total.data = Number(req.body.inputs[0]) - Number(req.body.inputs[1]);
         history.data.push(`${req.body.inputs[0]} - ${req.body.inputs[1]} = ${total.data}`);
         res.send(total);
     }
     //Multiplication
-    if(req.body.arithmetic == 'multiply'){
+    if(req.body.arithmetic == '*'){
         total.data = Number(req.body.inputs[0]) * Number(req.body.inputs[1]);
         history.data.push(`${req.body.inputs[0]} * ${req.body.inputs[1]} = ${total.data}`);
         res.send(total);
     }
     //Division
-    if(req.body.arithmetic == 'divide'){
+    if(req.body.arithmetic == '/'){
         total.data = Number(req.body.inputs[0]) / Number(req.body.inputs[1]);
         history.data.push(`${req.body.inputs[0]} / ${req.body.inputs[1]} = ${total.data}`);
         res.send(total);

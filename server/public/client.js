@@ -1,5 +1,3 @@
-console.log('js');
-
 $(document).ready(readyNow);
 
 //Stretch
@@ -8,13 +6,13 @@ let numString = '';
 
 let userInputs = {inputs:[], arithmetic: ''};
 let arithmetic;
+    userInputs.test = [312342345, 43252345];
 
 function readyNow(){
-    console.log('jq');
-    $('#plus-button').on('click', {arithmetic: 'plus'}, setArithmetic);
-    $('#minus-button').on('click', {arithmetic: 'minus'}, setArithmetic);
-    $('#multiply-button').on('click', {arithmetic: 'multiply'}, setArithmetic);
-    $('#divide-button').on('click', {arithmetic: 'divide'}, setArithmetic);
+    // $('#plus-button').on('click', {arithmetic: 'plus'}, setArithmetic);
+    // $('#minus-button').on('click', {arithmetic: 'minus'}, setArithmetic);
+    // $('#multiply-button').on('click', {arithmetic: 'multiply'}, setArithmetic);
+    // $('#divide-button').on('click', {arithmetic: 'divide'}, setArithmetic);
     $('#equals-button').on('click', takeUserInputs);
     $('#clear-button').on('click', handleClearButton);
     $('#calculator-table').on('click', handleCalculatorButtons);
@@ -27,16 +25,16 @@ function takeUserInputs(){
     userInputs.inputs.push($('#input-number-1').val());
     userInputs.arithmetic = arithmetic;
     userInputs.inputs.push($('#input-number-2').val());
-    console.log(userInputs.inputs);
+    // console.log(userInputs.inputs);
     sendUserInputs();
     handleClearButton();
 }
 
 //Sets arithmetic variable based on which button is clicked.
-function setArithmetic(event){
-    console.log(event.data.arithmetic);
-    arithmetic = event.data.arithmetic;
-}
+// function setArithmetic(event){
+//     console.log(event.data.arithmetic);
+//     arithmetic = event.data.arithmetic;
+// }
 
 //Sends user inputs to the server. 
 //Receives total as a response, appends it to the DOM. 
@@ -47,7 +45,7 @@ function sendUserInputs(){
         url: '/inputs',
         data: userInputs
     }).then ((response) => {
-        console.log('response:', response);
+        // console.log('response:', response);
         $('#total').empty();
         $('#total').append(`Total: ${response.data}`);
         handleRenderHistory();
@@ -64,7 +62,7 @@ function handleRenderHistory(){
         method: 'GET',
         url: '/inputs',
     }).then ((response) => {
-        console.log('response:', response);
+        // console.log('response:', response);
         $('#history').empty();
         for(let i of response.data){
             $('#history').append(`
@@ -82,6 +80,7 @@ function handleClearButton(){
     $('#input-number-2').val('');
     arithmetic = '';
     userInputs.inputs = [];
+    numString = '';
 }
 
 //Delete request to wipe history array server side.
@@ -91,7 +90,7 @@ function handleDeleteButton(){
         method: 'DELETE',
         url: '/inputs',
     }).then((response) =>{
-        console.log('delete response:', response);
+        // console.log('delete response:', response);
         handleRenderHistory();
         $('#total').empty();
         $('#total').append(`Total:`);
@@ -101,10 +100,11 @@ function handleDeleteButton(){
 //Function to handle client calculator table buttons.
 //Buttons tied to 1 click handler, each button has unique id.
 //Different actions taken in conditionals based on event.target.id passed through button click.
-//Buttons will push numbers to numString and pushes to array when arithmetic is selected. *** NOT DONE: Append value to input DOM. *****
+//Buttons will push numbers to numString and pushes to array when arithmetic is selected. 
+//*** NOT DONE: Append value to input DOM. *****
 
 //This is hard. Do it later.
-function handleCalculatorButtons(event){
+function handleCalculatorButtons(event){ 
     // console.log(event.target.id);
     if(event.target.id == 0){
         numString += '0';
@@ -126,30 +126,39 @@ function handleCalculatorButtons(event){
         numString += '8';
     }else if(event.target.id == 9){
         numString += '9';
-    }else if(event.target.id == '+' && numString.length > 0){
+    }else if(event.target.id == '+' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
-        userInputs.arithmetic = 'plus';
-    }else if(event.target.id == '-' && numString.length > 0){
+        userInputs.arithmetic = '+';
+    }else if(event.target.id == '-' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
-        userInputs.arithmetic = 'minus'
-    }else if(event.target.id == '*' && numString.length > 0){
+        userInputs.arithmetic = '-'
+    }else if(event.target.id == '*' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
-        userInputs.arithmetic = 'multiply'
-    }else if(event.target.id == '/' && numString.length > 0){
+        userInputs.arithmetic = '*'
+    }else if(event.target.id == '/' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
-        userInputs.arithmetic = 'divide';
-    }else if(event.target.id == '=' && numString.length > 0){
+        userInputs.arithmetic = '/';
+    }
+
+    if(userInputs.inputs.length == 0){
+        $("#input-number-1").val(`${numString}`);
+    }else if(userInputs.inputs.length == 1){
+        $("#input-number-1").val(`${userInputs.inputs[0]} ${userInputs.arithmetic} ${numString}`);
+    }
+
+    if(event.target.id == '=' && numString.length > 0){
         if(userInputs.inputs.length > 0){
             userInputs.inputs.push(numString);
             numString = '';
             sendUserInputs();
             userInputs.inputs = [];
+            $("#input-number-1").val('');
         }
     }
-    console.log(numString);
-    console.log(userInputs.inputs);
+    // console.log(numString);
+    // console.log(userInputs.inputs);
 }

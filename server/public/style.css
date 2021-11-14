@@ -1,3 +1,50 @@
 html{
-    background-color: aqua;
+    background-color: #191A19;
+    font-family: 'Roboto', sans-serif;
+    color: #4E9F3D;
+    /*
+    Color palette: Teal(#27323A, #435055, #29A19C, #A3F7BF)
+                  Green(#191A19, #1E5128, #4E9F3D, #D8E9A8)
+    */
+}
+.wrapper{
+    width: 1000px;
+    margin: auto;
+    text-align: center;
+    align-items: center;
+}
+table{
+    margin-left: auto;
+    margin-right: auto;
+}
+ul{
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+    text-align: left;
+}
+#history-div{
+    margin: auto;
+    width: 35%;
+}
+#total{
+    margin-right: 150px;
+}
+.calc-table button{
+    background-color: #1E5128;
+    color: #D8E9A8;
+    font-size: 80px;
+    width: 100%;
+}
+#delete{
+    margin-right: 60%;
+}
+table{
+    table-layout: fixed;
+    margin-top: 20px;
+}
+#input-number-1{
+    height: 80px;
+    width: 97.5%;
+    font-size: 50px;
 }
