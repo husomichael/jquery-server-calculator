@@ -19,42 +19,46 @@
         <table id="calculator-table" class="calc-table">
             <tr>
                 <td colspan=3>
-                    <input id="input-number-1" placeholder="" type="text">
+                    <input id="input-number-1" placeholder="" type="text" READONLY>
                 </td>
                 <td>
-                    <button id="clear-button">C</button>
+                    <button id="clear-button" class="operator">C</button>
                 </td>
             </tr>
             <tr>
                 <td><button id="7">7</button></td>
                 <td><button id="8">8</button></td>
                 <td><button id="9">9</button></td>
-                <td><button id="+">+</button></td>
+                <td><button id="+" class="operator">+</button></td>
             </tr>
             <tr>
                 <td><button id="4">4</button></td>
                 <td><button id="5">5</button></td>
                 <td><button id="6">6</button></td>
-                <td><button id="-">-</button></td>
+                <td><button id="-" class="operator">-</button></td>
             </tr>
             <tr>
                 <td><button id="1">1</button></td>
                 <td><button id="2">2</button></td>
                 <td><button id="3">3</button></td>
-                <td><button id="*">*</button></td>
+                <td><button id="*" class="operator">*</button></td>
             </tr>
             <tr>
                 <td><button id="0">0</button></td>
                 <td><button id=".">.</button></td>
-                <td><button id="=">=</button></td>
-                <td><button id="/">/</button></td>
+                <td><button id="=" class="operator">=</button></td>
+                <td><button id="/" class="operator">/</button></td>
             </tr>
         </table>
-        <h1 id="total">Total:</h1>
+        <div id="total-div">
+            <h1 id="total">Total:</h1>
+        </div>
         <div id="history-div">
+            <h1 id='history-h1'>History</h1>
             <button id="delete">Clear History</button>
-            <br>
-            <ul id="history"></ul>
+            <div id="history-list-div">
+                <ul id="history"></ul>
+            </div>
         </div>
     </body>
 </div>

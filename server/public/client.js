@@ -14,7 +14,8 @@ function readyNow(){
 
 //Sends user inputs to the server. 
 //Receives total as a response, appends it to the DOM. 
-//Renders history to DOM.
+//calls handleRenderHistory on success.
+//calls handleMultipleOperators with 'true' if operator selected instead of equals on success.
 function sendUserInputs(ifTrue, operator){
     $.ajax ({
         method: 'POST',
@@ -67,24 +68,11 @@ function handleDeleteButton(){
         method: 'DELETE',
         url: '/inputs',
     }).then((response) =>{
-        // console.log('delete response:', response);
         handleRenderHistory();
         $('#total').empty();
         $('#total').append(`Total:`);
     }).catch ((error) =>{
         console.log('handleDeleteButton error:', error);
-    });
-}
-
-//Function to get last total because my global variable isn't updating from the response of sendUserInputs.
-function getLastTotal(){
-    $.ajax ({
-        method: 'GET',
-        url: '/total',
-    }).then((response) =>{
-        $('#input-number-1').val(`${response.data}`);
-    }).catch((error) =>{
-        console.log('getLastTotal error:', error);
     });
 }
 
@@ -96,11 +84,13 @@ function getLastTotal(){
 
 /*Take lastTotal and use conditional to run numbers if user clicks
 an operator after 1 value is pushed and numString.length > 1. 
-Total can be pushed to array and operator appended and be back at square 1 of
+Total can be pushed to userInputs.inputs array and operator appended and be back at square 1 of
 having to add another number and hit another operator or equals.
 The logic running this way will force order of operations and make simple
 calculator work.  */
 function handleCalculatorButtons(event){ 
+
+    //handle buttons
     if(event.target.id == 0){
         numString += '0';
     }else if(event.target.id == 1){
@@ -123,7 +113,10 @@ function handleCalculatorButtons(event){
         numString += '9';
     }else if(event.target.id == '.'){
         numString += '.';
-    }else if(event.target.id == '+' && numString.length > 0 && userInputs.inputs.length < 1){
+    }
+
+    //Handle operator buttons
+    if(event.target.id == '+' && numString.length > 0 && userInputs.inputs.length < 1){
         userInputs.inputs.push(numString);
         numString = '';
         userInputs.arithmetic = '+';
@@ -152,13 +145,15 @@ function handleCalculatorButtons(event){
         userInputs.inputs.push(numString);
         sendUserInputs('true', '/');
     }
-    
+
+    //Handle calculator input appending
     if(userInputs.inputs.length == 0){
         $("#input-number-1").val(`${numString}`);
     }else if(userInputs.inputs.length == 1){
         $("#input-number-1").val(`${userInputs.inputs[0]} ${userInputs.arithmetic} ${numString}`);
     }
 
+    //Handle equals button
     if(event.target.id == '=' && numString.length > 0){
         if(userInputs.inputs.length > 0){
             userInputs.inputs.push(numString);

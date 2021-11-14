@@ -1,12 +1,19 @@
 html{
-    background-color: #191A19;
+    background-color: #EEEEEE;
     font-family: 'Roboto', sans-serif;
-    color: #4E9F3D;
+    color: #222831;
     /*
     Color palette: Teal(#27323A, #435055, #29A19C, #A3F7BF)
                   Green(#191A19, #1E5128, #4E9F3D, #D8E9A8)
                   Yellow(#222831, #393E46, #FFD369, #EEEEEE)
     */
+}
+header{
+    background-color: #222831;
+    width: 60.6%;
+    margin: auto;
+    color: #EEEEEE;
+    height: 45px
 }
 .wrapper{
     width: 1000px;
@@ -19,34 +26,67 @@ table{
     margin-right: auto;
 }
 ul{
-    margin-left: auto;
-    margin-right: auto;
-    float: left;
     text-align: left;
+    float: left;
     list-style-type: none;
+    background-color: #222831;
+    color: #FFD369;
+    width: 93.6%;
+}
+li{
+    padding: 2px;
+    font-size: 20px;
 }
 #history-div{
     margin: auto;
-    width: 35%;
+    margin-top: 5px;
+    width: 60.7%;
+}
+#history-h1{
+    background-color: #222831;
+    margin: auto;
+    color: #EEEEEE;
+    text-align: center;
+    margin-top: 5px;
+    padding: 5px;
+}
+#total-div{
+    margin: auto;
 }
 #total{
-    margin-right: 150px;
+    background-color: #222831;
+    width: 59.6%;
+    margin: auto;
+    color: #EEEEEE;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 50px;
+    color: #FFD369;
 }
 .calc-table button{
-    background-color: #1E5128;
-    color: #D8E9A8;
+    background-color: #393E46;
+    color: #EEEEEE;
     font-size: 80px;
     width: 100%;
 }
 #delete{
-    margin-right: 60%;
+    margin-top: 15px;
+    float: left;
+    background-color: #FFD369;
+    color: #222831;
+    height: 30px;
+    font-weight: bold;
 }
 table{
     table-layout: fixed;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 #input-number-1{
-    height: 80px;
-    width: 97.5%;
+    height: 91px;
+    width: 98.5%;
     font-size: 50px;
+}
+.calc-table .operator{
+    background-color: #393E46;
+    color: #FFD369;
 }

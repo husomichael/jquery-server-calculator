@@ -51,7 +51,7 @@ app.get('/inputs', (req, res) =>{
 //On delete request, history object is reset to empty array.
 app.delete('/inputs', (req, res) =>{
     history.data = [];
-    res.send('history deleted');
+    res.sendStatus(200);
 })
 
 app.listen(PORT, () => {
