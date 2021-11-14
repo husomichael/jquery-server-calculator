@@ -16,12 +16,10 @@ A delete button for the history will send a delete request to the server to wipe
 If the user would like to use multiple operators, instead of one operator and the equals button, the two values and first operator are sent to the server to run through the logic. On success the total will be returned and appended to the first value of the input in the calculator with the operator selected, for the third number to be put in. This can repeat until the equals button is selected. This forces order of operation to be determined by the user.
 
 ## Screen Shot
-Screenshot goes here.
-
-### Prerequisites
+![Calculator Screenshot](/images/calculator.png)
 
 ## Installation
-
+    
 ## Usage
 
 1. Click on numbers for the first number.

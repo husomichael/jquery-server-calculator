@@ -15,8 +15,6 @@ let total = {data: 0};
 //Logic is ran, total is returned.
 //Submission is pushed to history array.
 app.post('/inputs', (req, res) => {
-    console.log(req.body);
-    // res.sendStatus(200);
     //Addition
     if(req.body.arithmetic == '+'){
         total.data = Number(req.body.inputs[0]) + Number(req.body.inputs[1]);
